@@ -1,4 +1,45 @@
 :root {
+  --text: #e2e1ed;
+  --background: #0c0b1a;
+  --primary: #3a31d8;
+  --secondary: #231d90;
+  --accent: #4c43eb;
+
+  --primary-50: #eaeafb;
+  --primary-100: #d6d4f7;
+  --primary-200: #ada9ef;
+  --primary-300: #847ee7;
+  --primary-400: #5b54de;
+  --primary-500: #3129d6;
+  --primary-600: #2821ab;
+  --primary-700: #1e1881;
+  --primary-800: #141056;
+  --primary-900: #0a082b;
+  --primary-950: #050415;
+
+  --secondary-50: #ebeafb;
+  --secondary-100: #d6d5f6;
+  --secondary-200: #aeaaee;
+  --secondary-300: #8580e5;
+  --secondary-400: #5c56dc;
+  --secondary-500: #342bd4;
+  --secondary-600: #2923a9;
+  --secondary-700: #1f1a7f;
+  --secondary-800: #151155;
+  --secondary-900: #0a092a;
+  --secondary-950: #050415;
+
+  --accent-50: #e9e8fd;
+  --accent-100: #d3d1fa;
+  --accent-200: #a7a3f5;
+  --accent-300: #7b75f0;
+  --accent-400: #4f46ec;
+  --accent-500: #2318e7;
+  --accent-600: #1c13b9;
+  --accent-700: #150f8a;
+  --accent-800: #0e0a5c;
+  --accent-900: #07052e;
+  --accent-950: #030217;
 }
 
 body {
