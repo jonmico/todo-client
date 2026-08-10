@@ -1,3 +1,11 @@
+import { Outlet } from "react-router";
+import GlobalNav from "./components/GlobalNav";
+
 export default function App() {
-  return <div>Hello, world!</div>;
+  return (
+    <>
+      <GlobalNav />
+      <Outlet />
+    </>
+  );
 }

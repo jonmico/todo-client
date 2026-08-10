@@ -5,9 +5,10 @@
   box-sizing: border-box;
 }
 
-/* 2. Remove default margin */
+/* 2. Remove default margin (and padding - my addition) */
 *:not(dialog) {
   margin: 0;
+  padding: 0;
 }
 
 /* 3. Enable keyword animations */
@@ -72,4 +73,10 @@ h6 {
 #root,
 #__next {
   isolation: isolate;
+}
+
+/* My reset: Remove default styling on lists. */
+ul,
+ol {
+  list-style: none;
 }
