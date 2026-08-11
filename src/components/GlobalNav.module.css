@@ -1,5 +1,5 @@
 .nav {
-  border-bottom: 1px solid var(--primary-600);
+  border-bottom: 1px solid var(--primary-700);
 }
 
 .navList {
@@ -9,6 +9,15 @@
   padding: 1rem 0;
   width: 80%;
   margin: auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
 }
 
 .loginRegisterWrapper {
