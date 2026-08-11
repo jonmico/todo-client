@@ -59,3 +59,7 @@ body {
   background-color: var(--background);
   color: var(--text);
 }
+
+a.active {
+  color: var(--accent-200);
+}

@@ -80,3 +80,9 @@ ul,
 ol {
   list-style: none;
 }
+
+/* My reset: Remove text decorations and stuff from links */
+a {
+  text-decoration: none;
+  color: inherit;
+}

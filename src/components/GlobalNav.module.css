@@ -1,0 +1,26 @@
+.nav {
+  border-bottom: 1px solid var(--primary-600);
+}
+
+.navList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  width: 80%;
+  margin: auto;
+}
+
+.loginRegisterWrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.todoApp {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.navLink {
+  font-weight: 500;
+}
