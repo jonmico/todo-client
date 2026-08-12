@@ -1,4 +1,19 @@
 .app {
   min-width: 350px;
   height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+}
+
+.outletContainer {
+  width: 80%;
+  margin: auto;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .outletContainer {
+    width: 100%;
+    padding: 0 1rem;
+  }
 }

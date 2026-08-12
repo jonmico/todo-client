@@ -6,7 +6,9 @@ export default function App() {
   return (
     <div className={styles.app}>
       <GlobalNav />
-      <Outlet />
+      <div className={styles.outletContainer}>
+        <Outlet />
+      </div>
     </div>
   );
 }

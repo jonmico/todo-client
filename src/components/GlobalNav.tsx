@@ -3,22 +3,22 @@ import styles from "./GlobalNav.module.css";
 
 export default function GlobalNav() {
   return (
-    <nav className={styles.nav}>
-      <ul className={styles.navList}>
-        <div>
+    <div className={styles.navWrapper}>
+      <nav className={styles.nav}>
+        <ul>
           <li className={styles.todoApp}>
             <Link to="/">TodoApp</Link>
           </li>
-        </div>
-        <div className={styles.loginRegisterWrapper}>
+        </ul>
+        <ul className={styles.loginRegisterWrapper}>
           <li className={styles.navLink}>
             <NavLink to="/login">Login</NavLink>
           </li>
           <li className={styles.navLink}>
             <NavLink to="/register">Register</NavLink>
           </li>
-        </div>
-      </ul>
-    </nav>
+        </ul>
+      </nav>
+    </div>
   );
 }

@@ -1,18 +1,18 @@
-.nav {
+.navWrapper {
   border-bottom: 1px solid var(--primary-700);
 }
 
-.navList {
+.nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 1rem 0;
   width: 80%;
   margin: auto;
 }
 
 @media (max-width: 768px) {
-  .navList {
+  .nav {
     padding: 1rem;
     width: 100%;
   }
