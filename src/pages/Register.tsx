@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import AuthHeading from "../components/AuthHeading";
 import styles from "./Register.module.css";
 import AuthFormContainer from "../components/AuthFormContainer";
+import Button from "../components/Button";
 
 export default function Register() {
   return (
@@ -24,7 +25,7 @@ export default function Register() {
           <label>Confirm Password</label>
           <input />
         </div>
-        <button>Register</button>
+        <Button type="submit">Register</Button>
       </form>
       <p>
         Already have an account? <Link to="/login">Login here.</Link>
