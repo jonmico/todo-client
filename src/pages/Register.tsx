@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import AuthFormContainer from "../components/AuthFormContainer";
 import AuthHeading from "../components/AuthHeading";
 import Button from "../components/Button";
 import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
 import styles from "./Register.module.css";
+import { apiRegister } from "../services/auth/apiRegister";
 
 interface RegisterFormState {
   email: string;
@@ -25,6 +26,8 @@ export default function Register() {
   const [registerFormState, setRegisterFormState] = useState(
     initialRegisterFormState,
   );
+  const [serverError, setServerError] = useState("");
+  const navigate = useNavigate();
 
   function handleOnChange(
     evt: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -37,10 +40,28 @@ export default function Register() {
     });
   }
 
+  async function handleSubmit(evt: React.SubmitEvent<HTMLFormElement>) {
+    evt.preventDefault();
+    const user = {
+      email: registerFormState.email,
+      firstName: registerFormState.firstName,
+      password: registerFormState.password,
+    };
+
+    const result = await apiRegister(user);
+
+    if (result.ok) {
+      navigate("/todos");
+    } else {
+      setServerError(result.error);
+    }
+  }
+
   return (
     <AuthFormContainer>
       <AuthHeading>Register</AuthHeading>
-      <form className={styles.authForm}>
+      <form onSubmit={handleSubmit} className={styles.authForm}>
+        {serverError ?? <p>{serverError}</p>}
         <FormField>
           <label htmlFor="email">Email</label>
           <FormInput
