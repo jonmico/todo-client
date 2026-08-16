@@ -40,6 +40,13 @@
   --accent-800: #0e0a5c;
   --accent-900: #07052e;
   --accent-950: #030217;
+
+  --error-100: #fecaca;
+  --error-300: #fca5a5;
+  --error-400: #f87171;
+  --error-500: #ef4444;
+  --error-700: #b91c1c;
+  --error-900: #7f1d1d;
 }
 
 body {

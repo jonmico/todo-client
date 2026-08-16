@@ -61,7 +61,7 @@ export default function Register() {
     <AuthFormContainer>
       <AuthHeading>Register</AuthHeading>
       <form onSubmit={handleSubmit} className={styles.authForm}>
-        {serverError ?? <p>{serverError}</p>}
+        {serverError && <p className={styles.serverError}>{serverError}</p>}
         <FormField>
           <label htmlFor="email">Email</label>
           <FormInput
