@@ -7,6 +7,7 @@ import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
 import styles from "./Register.module.css";
 import { apiRegister } from "../services/auth/apiRegister";
+import z from "zod";
 
 interface RegisterFormState {
   email: string;
@@ -22,12 +23,31 @@ const initialRegisterFormState: RegisterFormState = {
   confirmPassword: "",
 };
 
+const registerSchema = z.object({
+  email: z.email({ message: "Please enter a valid email." }),
+  firstName: z
+    .string()
+    .trim()
+    .min(1, { message: "Please enter a first name." }),
+  password: z
+    .string()
+    .trim()
+    .min(4, { message: "Password must be at least 4 characters." }),
+  confirmPassword: z
+    .string()
+    .trim()
+    .min(4, { message: "Password must be at least 4 characters." }),
+});
+
 export default function Register() {
   const [registerFormState, setRegisterFormState] = useState(
     initialRegisterFormState,
   );
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
+  const [registerFormErrors, setRegisterFormErrors] = useState(
+    initialRegisterFormState,
+  );
 
   function handleOnChange(
     evt: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -47,6 +67,13 @@ export default function Register() {
       firstName: registerFormState.firstName,
       password: registerFormState.password,
     };
+
+    const schemaResult = registerSchema.safeParse(user);
+
+    if (!schemaResult.success) {
+      console.log(schemaResult);
+      return;
+    }
 
     const result = await apiRegister(user);
 
