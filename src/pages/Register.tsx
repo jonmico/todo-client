@@ -7,7 +7,8 @@ import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
 import styles from "./Register.module.css";
 import { apiRegister } from "../services/auth/apiRegister";
-import z from "zod";
+import z, { flattenError } from "zod";
+import AuthFormError from "../components/AuthFormError";
 
 interface RegisterFormState {
   email: string;
@@ -23,20 +24,24 @@ const initialRegisterFormState: RegisterFormState = {
   confirmPassword: "",
 };
 
+const initialRegisterErrorsState: RegisterFormState = {
+  email: "",
+  firstName: "",
+  password: "",
+  confirmPassword: "",
+};
+
 const registerSchema = z.object({
-  email: z.email({ message: "Please enter a valid email." }),
-  firstName: z
-    .string()
-    .trim()
-    .min(1, { message: "Please enter a first name." }),
+  email: z.email({ error: "Please enter a valid email." }),
+  firstName: z.string().trim().min(1, { error: "Please enter a first name." }),
   password: z
     .string()
     .trim()
-    .min(4, { message: "Password must be at least 4 characters." }),
+    .min(4, { error: "Password must be at least 4 characters." }),
   confirmPassword: z
     .string()
     .trim()
-    .min(4, { message: "Password must be at least 4 characters." }),
+    .min(4, { error: "Password must be at least 4 characters." }),
 });
 
 export default function Register() {
@@ -46,7 +51,7 @@ export default function Register() {
   const [serverError, setServerError] = useState("");
   const navigate = useNavigate();
   const [registerFormErrors, setRegisterFormErrors] = useState(
-    initialRegisterFormState,
+    initialRegisterErrorsState,
   );
 
   function handleOnChange(
@@ -66,12 +71,28 @@ export default function Register() {
       email: registerFormState.email,
       firstName: registerFormState.firstName,
       password: registerFormState.password,
+      confirmPassword: registerFormState.confirmPassword,
     };
 
     const schemaResult = registerSchema.safeParse(user);
 
     if (!schemaResult.success) {
+      const errors = flattenError(schemaResult.error);
       console.log(schemaResult);
+
+      setRegisterFormErrors({
+        email: errors.fieldErrors.email?.[0] ?? "",
+        firstName: errors.fieldErrors.firstName?.[0] ?? "",
+        password: errors.fieldErrors.password?.[0] ?? "",
+        confirmPassword: "",
+      });
+
+      if (registerFormState.confirmPassword !== registerFormState.password) {
+        setRegisterFormErrors((state) => {
+          return { ...state, confirmPassword: "Passwords must match." };
+        });
+      }
+
       return;
     }
 
@@ -94,11 +115,13 @@ export default function Register() {
           <FormInput
             name="email"
             id="email"
-            type="email"
             autoComplete="off"
             onChange={handleOnChange}
             value={registerFormState.email}
           />
+          {registerFormErrors.email && (
+            <AuthFormError>{registerFormErrors.email}</AuthFormError>
+          )}
         </FormField>
         <FormField>
           <label htmlFor="firstName">First Name</label>
@@ -109,6 +132,9 @@ export default function Register() {
             onChange={handleOnChange}
             value={registerFormState.firstName}
           />
+          {registerFormErrors.firstName && (
+            <AuthFormError>{registerFormErrors.firstName}</AuthFormError>
+          )}
         </FormField>
         <FormField>
           <label htmlFor="password">Password</label>
@@ -119,6 +145,9 @@ export default function Register() {
             onChange={handleOnChange}
             value={registerFormState.password}
           />
+          {registerFormErrors.password && (
+            <AuthFormError>{registerFormErrors.password}</AuthFormError>
+          )}
         </FormField>
         <FormField>
           <label htmlFor="confirmPassword">Confirm Password</label>
@@ -129,6 +158,9 @@ export default function Register() {
             onChange={handleOnChange}
             value={registerFormState.confirmPassword}
           />
+          {registerFormErrors.confirmPassword && (
+            <AuthFormError>{registerFormErrors.confirmPassword}</AuthFormError>
+          )}
         </FormField>
         <Button type="submit">Register</Button>
       </form>
