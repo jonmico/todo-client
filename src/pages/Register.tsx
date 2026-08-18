@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import z, { flattenError } from "zod";
+import AuthForm from "../components/AuthForm";
 import AuthFormContainer from "../components/AuthFormContainer";
+import AuthFormError from "../components/AuthFormError";
 import AuthHeading from "../components/AuthHeading";
 import Button from "../components/Button";
 import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
-import styles from "./Register.module.css";
+import ServerError from "../components/ServerError";
 import { apiRegister } from "../services/auth/apiRegister";
-import z, { flattenError } from "zod";
-import AuthFormError from "../components/AuthFormError";
 
 interface RegisterFormState {
   email: string;
@@ -78,7 +79,6 @@ export default function Register() {
 
     if (!schemaResult.success) {
       const errors = flattenError(schemaResult.error);
-      console.log(schemaResult);
 
       setRegisterFormErrors({
         email: errors.fieldErrors.email?.[0] ?? "",
@@ -108,8 +108,8 @@ export default function Register() {
   return (
     <AuthFormContainer>
       <AuthHeading>Register</AuthHeading>
-      <form onSubmit={handleSubmit} className={styles.authForm}>
-        {serverError && <p className={styles.serverError}>{serverError}</p>}
+      <AuthForm onSubmit={handleSubmit}>
+        {serverError && <ServerError>{serverError}</ServerError>}
         <FormField>
           <label htmlFor="email">Email</label>
           <FormInput
@@ -163,7 +163,7 @@ export default function Register() {
           )}
         </FormField>
         <Button type="submit">Register</Button>
-      </form>
+      </AuthForm>
       <p>
         Already have an account? <Link to="/login">Login here.</Link>
       </p>

@@ -28,12 +28,12 @@ export async function apiRegister(
 
   if (!res.ok) {
     const errorData: { error: string } = await res.json();
-    return { ok: res.ok, error: errorData.error };
+    return { ok: false, error: errorData.error };
   }
 
   const successData: {
     user: { email: string; id: string; firstName: string };
   } = await res.json();
 
-  return { ok: res.ok, user: successData.user };
+  return { ok: true, user: successData.user };
 }
