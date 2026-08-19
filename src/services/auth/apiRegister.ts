@@ -1,9 +1,3 @@
-interface User {
-  email: string;
-  firstName: string;
-  password: string;
-}
-
 interface RegisterSuccess {
   ok: true;
   user: { email: string; id: string; firstName: string };
@@ -15,7 +9,9 @@ interface RegisterFailure {
 }
 
 export async function apiRegister(
-  user: User,
+  email: string,
+  firstName: string,
+  password: string,
 ): Promise<RegisterSuccess | RegisterFailure> {
   const res = await fetch("/api/auth/register", {
     method: "POST",
@@ -23,7 +19,7 @@ export async function apiRegister(
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify(user),
+    body: JSON.stringify({ email, firstName, password }),
   });
 
   if (!res.ok) {

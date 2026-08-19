@@ -9,7 +9,7 @@ import Button from "../components/Button";
 import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
 import ServerError from "../components/ServerError";
-import { apiRegister } from "../services/auth/apiRegister";
+import { useAuth } from "../hooks/useAuth";
 
 interface RegisterFormState {
   email: string;
@@ -54,6 +54,7 @@ export default function Register() {
   const [registerFormErrors, setRegisterFormErrors] = useState(
     initialRegisterErrorsState,
   );
+  const { register } = useAuth();
 
   function handleOnChange(
     evt: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -96,13 +97,16 @@ export default function Register() {
       return;
     }
 
-    const result = await apiRegister(user);
+    const { email, firstName, password } = schemaResult.data;
 
-    if (result.ok) {
-      return navigate("/todos");
-    } else {
+    const result = await register(email, firstName, password);
+
+    // FIXME: This is the thing that does not seem elegant.
+    if (result?.error) {
       setServerError(result.error);
       return;
+    } else {
+      return navigate("/todos");
     }
   }
 
