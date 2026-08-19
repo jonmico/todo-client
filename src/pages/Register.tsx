@@ -99,9 +99,10 @@ export default function Register() {
     const result = await apiRegister(user);
 
     if (result.ok) {
-      navigate("/todos");
+      return navigate("/todos");
     } else {
       setServerError(result.error);
+      return;
     }
   }
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import AuthFormContainer from "../components/AuthFormContainer";
 import AuthHeading from "../components/AuthHeading";
 import Button from "../components/Button";
@@ -9,6 +9,7 @@ import AuthForm from "../components/AuthForm";
 import z, { flattenError } from "zod";
 import { apiLogin } from "../services/auth/apiLogin";
 import AuthFormError from "../components/AuthFormError";
+import ServerError from "../components/ServerError";
 
 interface LoginFormState {
   email: string;
@@ -35,6 +36,8 @@ export default function Login() {
   const [loginFormErrors, setLoginFormErrors] = useState(
     initialLoginFormErrors,
   );
+  const [serverError, setServerError] = useState("");
+  const navigate = useNavigate();
 
   function handleOnChange(
     evt: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -69,13 +72,19 @@ export default function Login() {
     );
 
     // TODO: Finish this form.
-    console.log(result);
+    if (result.ok) {
+      return navigate("/todos");
+    } else {
+      setServerError(result.error);
+      return;
+    }
   }
 
   return (
     <AuthFormContainer>
       <AuthHeading>Login</AuthHeading>
       <AuthForm onSubmit={handleSubmit}>
+        {serverError && <ServerError>{serverError}</ServerError>}
         <FormField>
           <label htmlFor="email">Email</label>
           <FormInput
