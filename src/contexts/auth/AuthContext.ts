@@ -15,6 +15,7 @@ interface IAuthContext {
     email: string,
     password: string,
   ) => Promise<{ ok: true } | { ok: false; error: string }>;
+  logout: () => Promise<{ ok: true } | { ok: false; error: string }>;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);

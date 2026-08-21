@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { apiRegister } from "../../services/auth/apiRegister";
 import { apiLogin } from "../../services/auth/apiLogin";
+import { apiLogout } from "../../services/auth/apiLogout";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -31,7 +32,18 @@ export default function AuthProvider(props: AuthProviderProps) {
   }
 
   async function logout() {
-    // TODO: Write me.
+    const logoutResult = await apiLogout();
+    setIsLoading(false);
+
+    if (!logoutResult.ok) {
+      return { ok: logoutResult.ok, error: logoutResult.error };
+    }
+
+    setIsLoggedIn(false);
+    setUserId("");
+    setFirstName("");
+    setEmail("");
+    return { ok: logoutResult.ok };
   }
 
   async function register(email: string, firstName: string, password: string) {
@@ -58,6 +70,7 @@ export default function AuthProvider(props: AuthProviderProps) {
     isLoggedIn,
     register,
     login,
+    logout,
   };
 
   return <AuthContext value={value}>{props.children}</AuthContext>;

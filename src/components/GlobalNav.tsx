@@ -1,6 +1,9 @@
 import { Link, NavLink } from "react-router";
 import styles from "./GlobalNav.module.css";
 
+// TODO: Conditionally render Login/Register/Logout depending on isLoggedIn state.
+// TODO: Create and hookup logout button.
+
 export default function GlobalNav() {
   return (
     <div className={styles.navWrapper}>
