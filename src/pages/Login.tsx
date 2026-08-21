@@ -1,15 +1,15 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import z, { flattenError } from "zod";
+import AuthForm from "../components/AuthForm";
 import AuthFormContainer from "../components/AuthFormContainer";
+import AuthFormError from "../components/AuthFormError";
 import AuthHeading from "../components/AuthHeading";
 import Button from "../components/Button";
 import FormField from "../components/FormField";
 import FormInput from "../components/FormInput";
-import { useState } from "react";
-import AuthForm from "../components/AuthForm";
-import z, { flattenError } from "zod";
-import { apiLogin } from "../services/auth/apiLogin";
-import AuthFormError from "../components/AuthFormError";
 import ServerError from "../components/ServerError";
+import { useAuth } from "../hooks/useAuth";
 
 interface LoginFormState {
   email: string;
@@ -37,6 +37,7 @@ export default function Login() {
     initialLoginFormErrors,
   );
   const [serverError, setServerError] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   function handleOnChange(
@@ -66,18 +67,14 @@ export default function Login() {
       return;
     }
 
-    const result = await apiLogin(
-      loginFormState.email,
-      loginFormState.password,
-    );
+    const result = await login(loginFormState.email, loginFormState.password);
 
-    // TODO: Finish this form.
-    if (result.ok) {
-      return navigate("/todos");
-    } else {
+    if (!result.ok) {
       setServerError(result.error);
       return;
     }
+
+    return navigate("/todos");
   }
 
   return (

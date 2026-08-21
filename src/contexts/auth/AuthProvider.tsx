@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { apiRegister } from "../../services/auth/apiRegister";
+import { apiLogin } from "../../services/auth/apiLogin";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -13,8 +14,20 @@ export default function AuthProvider(props: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  async function login() {
-    // TODO: Write me.
+  async function login(email: string, password: string) {
+    const loginResult = await apiLogin(email, password);
+    setIsLoading(false);
+
+    if (!loginResult.ok) {
+      setIsLoggedIn(false);
+      return { ok: loginResult.ok, error: loginResult.error };
+    }
+
+    setIsLoggedIn(true);
+    setUserId(loginResult.user.id);
+    setEmail(loginResult.user.email);
+    setFirstName(loginResult.user.firstName);
+    return { ok: loginResult.ok };
   }
 
   async function logout() {
@@ -37,7 +50,15 @@ export default function AuthProvider(props: AuthProviderProps) {
     return { ok: registerResult.ok };
   }
 
-  const value = { userId, firstName, email, isLoading, isLoggedIn, register };
+  const value = {
+    userId,
+    firstName,
+    email,
+    isLoading,
+    isLoggedIn,
+    register,
+    login,
+  };
 
   return <AuthContext value={value}>{props.children}</AuthContext>;
 }
