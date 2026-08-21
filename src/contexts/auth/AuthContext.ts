@@ -10,12 +10,7 @@ interface IAuthContext {
     email: string,
     firstName: string,
     password: string,
-  ) => Promise<
-    | {
-        error: string;
-      }
-    | undefined
-  >;
+  ) => Promise<{ ok: true } | { ok: false; error: string }>;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);

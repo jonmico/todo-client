@@ -64,6 +64,7 @@ export default function Register() {
     });
   }
 
+  //TODO/FIXME: Evaluate this whole function tomorrow.
   async function handleSubmit(evt: React.SubmitEvent<HTMLFormElement>) {
     evt.preventDefault();
 
@@ -81,11 +82,23 @@ export default function Register() {
     if (!schemaResult.success) {
       const errors = flattenError(schemaResult.error);
 
-      setRegisterFormErrors({
-        email: errors.fieldErrors.email?.[0] ?? "",
-        firstName: errors.fieldErrors.firstName?.[0] ?? "",
-        password: errors.fieldErrors.password?.[0] ?? "",
-        confirmPassword: passwordsMatch ? "" : "Passwords must match.",
+      setRegisterFormErrors((state) => {
+        return {
+          ...state,
+          email: errors.fieldErrors.email?.[0] ?? "",
+          firstName: errors.fieldErrors.firstName?.[0] ?? "",
+          password: errors.fieldErrors.password?.[0] ?? "",
+        };
+      });
+    }
+
+    if (!passwordsMatch) {
+      setRegisterFormErrors((state) => {
+        return { ...state, confirmPassword: "Passwords must match." };
+      });
+    } else {
+      setRegisterFormErrors((state) => {
+        return { ...state, confirmPassword: "" };
       });
     }
 
@@ -97,13 +110,12 @@ export default function Register() {
 
     const result = await register(email, firstName, password);
 
-    // FIXME: This is the thing that does not seem elegant.
-    if (result?.error) {
+    if (!result.ok) {
       setServerError(result.error);
       return;
-    } else {
-      return navigate("/todos");
     }
+
+    return navigate("/todos");
   }
 
   return (

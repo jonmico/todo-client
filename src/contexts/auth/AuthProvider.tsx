@@ -22,21 +22,19 @@ export default function AuthProvider(props: AuthProviderProps) {
   }
 
   async function register(email: string, firstName: string, password: string) {
-    // FIXME: Figure out an elegant way to communicate to Register that register was successful or not.
     const registerResult = await apiRegister(email, firstName, password);
     setIsLoading(false);
 
-    if (registerResult.ok) {
-      setIsLoggedIn(true);
-
-      setUserId(registerResult.user.id);
-      setEmail(registerResult.user.email);
-      setFirstName(registerResult.user.firstName);
-    } else {
+    if (!registerResult.ok) {
       setIsLoggedIn(false);
-
-      return { error: registerResult.error };
+      return { ok: registerResult.ok, error: registerResult.error };
     }
+
+    setIsLoggedIn(true);
+    setUserId(registerResult.user.id);
+    setEmail(registerResult.user.email);
+    setFirstName(registerResult.user.firstName);
+    return { ok: registerResult.ok };
   }
 
   const value = { userId, firstName, email, isLoading, isLoggedIn, register };
