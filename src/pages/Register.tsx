@@ -39,10 +39,7 @@ const registerSchema = z.object({
     .string()
     .trim()
     .min(4, { error: "Password must be at least 4 characters." }),
-  confirmPassword: z
-    .string()
-    .trim()
-    .min(4, { error: "Password must be at least 4 characters." }),
+  confirmPassword: z.string(),
 });
 
 export default function Register() {
@@ -69,6 +66,7 @@ export default function Register() {
 
   async function handleSubmit(evt: React.SubmitEvent<HTMLFormElement>) {
     evt.preventDefault();
+
     const user = {
       email: registerFormState.email,
       firstName: registerFormState.firstName,
@@ -77,6 +75,8 @@ export default function Register() {
     };
 
     const schemaResult = registerSchema.safeParse(user);
+    const passwordsMatch =
+      registerFormState.password === registerFormState.confirmPassword;
 
     if (!schemaResult.success) {
       const errors = flattenError(schemaResult.error);
@@ -85,15 +85,11 @@ export default function Register() {
         email: errors.fieldErrors.email?.[0] ?? "",
         firstName: errors.fieldErrors.firstName?.[0] ?? "",
         password: errors.fieldErrors.password?.[0] ?? "",
-        confirmPassword: "",
+        confirmPassword: passwordsMatch ? "" : "Passwords must match.",
       });
+    }
 
-      if (registerFormState.confirmPassword !== registerFormState.password) {
-        setRegisterFormErrors((state) => {
-          return { ...state, confirmPassword: "Passwords must match." };
-        });
-      }
-
+    if (!schemaResult.success || !passwordsMatch) {
       return;
     }
 
