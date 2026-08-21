@@ -32,15 +32,23 @@ const initialRegisterErrorsState: RegisterFormState = {
   confirmPassword: "",
 };
 
-const registerSchema = z.object({
-  email: z.email({ error: "Please enter a valid email." }),
-  firstName: z.string().trim().min(1, { error: "Please enter a first name." }),
-  password: z
-    .string()
-    .trim()
-    .min(4, { error: "Password must be at least 4 characters." }),
-  confirmPassword: z.string(),
-});
+const registerSchema = z
+  .object({
+    email: z.email({ error: "Please enter a valid email." }),
+    firstName: z
+      .string()
+      .trim()
+      .min(1, { error: "Please enter a first name." }),
+    password: z
+      .string()
+      .trim()
+      .min(4, { error: "Password must be at least 4 characters." }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    error: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
 
 export default function Register() {
   const [registerFormState, setRegisterFormState] = useState(
@@ -64,7 +72,6 @@ export default function Register() {
     });
   }
 
-  //TODO/FIXME: Evaluate this whole function tomorrow.
   async function handleSubmit(evt: React.SubmitEvent<HTMLFormElement>) {
     evt.preventDefault();
 
@@ -76,8 +83,6 @@ export default function Register() {
     };
 
     const schemaResult = registerSchema.safeParse(user);
-    const passwordsMatch =
-      registerFormState.password === registerFormState.confirmPassword;
 
     if (!schemaResult.success) {
       const errors = flattenError(schemaResult.error);
@@ -88,21 +93,10 @@ export default function Register() {
           email: errors.fieldErrors.email?.[0] ?? "",
           firstName: errors.fieldErrors.firstName?.[0] ?? "",
           password: errors.fieldErrors.password?.[0] ?? "",
+          confirmPassword: errors.fieldErrors.confirmPassword?.[0] ?? "",
         };
       });
-    }
 
-    if (!passwordsMatch) {
-      setRegisterFormErrors((state) => {
-        return { ...state, confirmPassword: "Passwords must match." };
-      });
-    } else {
-      setRegisterFormErrors((state) => {
-        return { ...state, confirmPassword: "" };
-      });
-    }
-
-    if (!schemaResult.success || !passwordsMatch) {
       return;
     }
 
