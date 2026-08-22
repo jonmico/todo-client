@@ -31,3 +31,15 @@
 .navLink {
   font-weight: 500;
 }
+
+.logoutButton {
+  font-weight: 500;
+  border: none;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+.logoutButton:hover {
+  color: var(--primary-200);
+  cursor: pointer;
+}
