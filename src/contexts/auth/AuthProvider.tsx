@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import { apiRegister } from "../../services/auth/apiRegister";
 import { apiLogin } from "../../services/auth/apiLogin";
 import { apiLogout } from "../../services/auth/apiLogout";
+import { apiGetMe } from "../../services/auth/apiMe";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -14,6 +15,25 @@ export default function AuthProvider(props: AuthProviderProps) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    async function checkMe() {
+      const meData = await apiGetMe();
+      setIsLoading(false);
+
+      if (!meData.ok) {
+        setIsLoggedIn(false);
+        console.error(meData.error);
+        return;
+      }
+
+      setIsLoggedIn(true);
+      setFirstName(meData.user.firstName);
+      setEmail(meData.user.email);
+      setUserId(meData.user.id);
+    }
+    checkMe();
+  }, []);
 
   async function login(email: string, password: string) {
     const loginResult = await apiLogin(email, password);
