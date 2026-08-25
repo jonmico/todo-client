@@ -30,8 +30,9 @@ export async function apiLogin(
     return { ok: false, error: errorData.error };
   }
 
-  const successData: { id: string; email: string; firstName: string } =
-    await res.json();
+  const successData: {
+    user: { id: string; email: string; firstName: string };
+  } = await res.json();
 
-  return { ok: true, user: { ...successData } };
+  return { ok: true, user: successData.user };
 }
