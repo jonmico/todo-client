@@ -11,7 +11,7 @@ interface CreateTodoFailure {
 export async function apiCreateTodo(
   title: string,
   description: string,
-  dueDate: string,
+  dueDate: string | undefined,
 ): Promise<CreateTodoSuccess | CreateTodoFailure> {
   const res = await fetch("/api/todos/create", {
     method: "POST",
@@ -19,7 +19,7 @@ export async function apiCreateTodo(
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({ title, description, dueDate }),
   });
 
   if (!res.ok) {
