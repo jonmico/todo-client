@@ -1,0 +1,18 @@
+.todoList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.todo {
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todoTitle {
+  border-bottom: 1px solid var(--primary-700);
+}

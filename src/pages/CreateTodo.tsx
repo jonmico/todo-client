@@ -10,6 +10,7 @@ import AuthFormError from "../components/AuthFormError";
 import { useNavigate } from "react-router";
 
 // TODO: Clear form errors.
+// TODO: Fix console error with dueDate. It does not like going from undefined to defined.
 
 const createTodoSchema = z
   .string()
