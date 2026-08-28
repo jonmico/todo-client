@@ -16,3 +16,7 @@
 .todoTitle {
   border-bottom: 1px solid var(--primary-700);
 }
+
+.noDescription {
+  font-style: italic;
+}

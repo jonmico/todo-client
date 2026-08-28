@@ -7,7 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 interface Todo {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   due_date: string;
   completed: number;
   created_at: string;
@@ -55,7 +55,13 @@ function Todo(props: TodoProps) {
   return (
     <li className={styles.todo}>
       <h2 className={styles.todoTitle}>{props.todo.title}</h2>
-      <p>{props.todo.description}</p>
+      <div>
+        {props.todo.description ? (
+          <p>{props.todo.description}</p>
+        ) : (
+          <p className={styles.noDescription}>No description provided.</p>
+        )}
+      </div>
     </li>
   );
 }
