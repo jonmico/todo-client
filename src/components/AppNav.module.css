@@ -1,0 +1,14 @@
+.navList {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.navItem {
+  font-weight: 500;
+  transition: color 200ms ease-in-out;
+}
+
+.navItem:hover {
+  color: var(--primary-200);
+}

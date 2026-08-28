@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")!).render(
             <Route element={<ProtectedLayout />}>
               <Route element={<AppLayout />}>
                 <Route path="/todos" element={<Todos />} />
-                <Route path="/todos/create" element={<CreateTodo />} />
+                <Route path="/create" element={<CreateTodo />} />
               </Route>
             </Route>
           </Route>

@@ -35,9 +35,7 @@ export default function Todos() {
   return (
     <div>
       <h1>{firstName}'s Todos</h1>
-      <p>
-        <Link to="create">Here</Link> is a link the the create todo page.
-      </p>
+
       <ul className={styles.todoList}>
         {todos.map((todo) => (
           <Todo todo={todo} key={todo.id} />

@@ -1,5 +1,11 @@
 import { Outlet } from "react-router";
+import AppNav from "../components/AppNav";
 
 export default function AppLayout() {
-  return <Outlet />;
+  return (
+    <>
+      <AppNav />
+      <Outlet />
+    </>
+  );
 }
