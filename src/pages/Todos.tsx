@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { apiGetTodos } from "../services/todos/apiGetTodos";
-import { Link } from "react-router";
-import styles from "./Todos.module.css";
 import { useAuth } from "../hooks/useAuth";
+import { apiGetTodos } from "../services/todos/apiGetTodos";
+import styles from "./Todos.module.css";
+import { Link } from "react-router";
 
 interface Todo {
   id: string;
@@ -60,6 +60,7 @@ function Todo(props: TodoProps) {
           <p className={styles.noDescription}>No description provided.</p>
         )}
       </div>
+      <Link to={props.todo.id}>View</Link>
     </li>
   );
 }
